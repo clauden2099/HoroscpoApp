@@ -1,9 +1,9 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.androidx.navigation.safeargs) // solo si usas Safe Args
-    alias(libs.plugins.hilt) // ✅ Aquí sí aplica
-    id("org.jetbrains.kotlin.kapt") // ✅ sin alias ni versión
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.androidxNavigationSafeargs)
+    alias(libs.plugins.dagger.hilt)
+    kotlin("kapt")
 }
 
 android {
@@ -42,13 +42,23 @@ android {
 }
 
 dependencies {
-    //dragger hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    // Dagger Hilt
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+
+    // OkHttp
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging)
+
 
     //NavComponents
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -57,4 +67,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+// Esta configuración es importante para Hilt
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
 }
